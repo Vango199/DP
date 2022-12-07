@@ -3,6 +3,9 @@ package nutsAndBolts;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Observable;
 
 public class ChessGUIConfig {
 	private static Couleur beginColor;	// blanc dans jeu d'échec
@@ -13,6 +16,7 @@ public class ChessGUIConfig {
 	private static String title;
 	private static Dimension dimension;
 	private static Point location;
+	private static PropertyChangeSupport support ;
 	
 	
 	private static ChessGUIConfig instance = null;
@@ -52,6 +56,8 @@ public class ChessGUIConfig {
 		ChessGUIConfig.lightColor = lightColor;
 		ChessGUIConfig.dimension = dimension;
 		ChessGUIConfig.location = location;
+		ChessGUIConfig.support= new PropertyChangeSupport(ChessGUIConfig.class);
+		
 	
 	}
 	
@@ -78,6 +84,17 @@ public class ChessGUIConfig {
 	public static Color getLightColor() {
 		return ChessGUIConfig.lightColor;
 	}
+
+	public static void setLightColor( Color color) {
+		ChessGUIConfig.lightColor =color;
+		ChessGUIConfig.support.firePropertyChange("lightColor", ChessGUIConfig.lightColor, color);
+		
+	}
+
+	public static void addPropertyChangeListener(PropertyChangeListener pcl) {
+        ChessGUIConfig.support.addPropertyChangeListener(pcl);
+		
+    }
 	
 	
 	public static String getTitle() {
